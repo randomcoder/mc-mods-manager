@@ -17,7 +17,8 @@ Mods are read from two places (at least for **forge**):
 
 ## How to do it
 One option is for the user to add a mod along with some metadata, Minecraft Version (poss global), Mod Name (their choice) etc. 
-and the Mod Manager will then store all the mods in a dedicated directory structure which is then read by the main application.
+and the Mod Manager will then store all the mods in a dedicated directory structure (**Mod Library**) which is then 
+read by the main application.
   
 ### Mod Identification
 If possible, pre loading some mod data based on the hash of the mod file would make this more pleasant.
