@@ -26,11 +26,12 @@
 package uk.co.randomcoding.minecraft.modmanager.mod
 
 import java.io.{File, FileInputStream}
+import java.nio.file.{Files, Paths}
 
 /**
  * Adds a new Mod to the Mod Managers mod library
  */
-class ModAdder {
+class ModAdder(modLibraryPath: String) {
   /**
    * Add a Mod to the mods library
    *
@@ -42,6 +43,15 @@ class ModAdder {
    * @return The Metadata
    */
   def addMod(modFile: File, modName: String, minecraftVersion: String): ModMetadata = ModMetadata(modName, minecraftVersion, s"modslibrary/${modFile.getName}", genMd5(modFile))
+
+  def save(modFile: File): File = copyModFile(modFile)
+
+  private[this] def copyModFile(original: File): File = {
+    val targetPath = s"$modLibraryPath/${original.getName}"
+    val path = Files.copy(Paths.get(original.getAbsolutePath), Paths.get(targetPath))
+
+    path.toFile
+  }
 
   private[this] def genMd5(modFile: File): String = {
     DigestCalculator.digest(new FileInputStream(modFile))
