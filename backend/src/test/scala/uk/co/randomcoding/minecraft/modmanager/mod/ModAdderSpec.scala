@@ -53,8 +53,8 @@ class ModAdderSpec extends SpecBaseBeforeAfterEach {
     val dummyModFile = new File(getClass.getResource("/dummyMod.mod").toURI)
 
     When("the dummy file is added with a name of 'Dummy Mod' and version of '1.4.5'")
-    Then("the generated metadata is 'ModMetadata(Dummy Mod, 1.4.5, d7363ddead39a3ef6a99821495301092)")
-    modAdder.addMod(dummyModFile, "Dummy Mod", "1.4.5") should be (ModMetadata("Dummy Mod", "1.4.5", "modslibrary/dummyMod.mod","d7363ddead39a3ef6a99821495301092"))
+    Then(s"the generated metadata is 'ModMetadata(Dummy Mod, 1.4.5, $modsLibrary/dummyMod-Dummy Mod.mod, d7363ddead39a3ef6a99821495301092)")
+    modAdder.addMod(dummyModFile, "Dummy Mod", "1.4.5") should be (ModMetadata("Dummy Mod", "1.4.5", s"$modsLibrary/dummyMod-Dummy Mod.mod","d7363ddead39a3ef6a99821495301092"))
   }
 
   it should "return the saved mod file when a new mod is saved with an absolute path to the mods library" in {
@@ -62,9 +62,11 @@ class ModAdderSpec extends SpecBaseBeforeAfterEach {
     val modAdder = genModAdder
     And("a dummy mod file called dummyMod.mod")
     val dummyModFile = new File(getClass.getResource("/dummyMod.mod").toURI)
+    And("the metadata for the mod file")
+    //val metadata = modAdder.add
 
     When("the dummy file is saved")
-    val savedFile = modAdder.save(dummyModFile)
+    val savedFile = modAdder.add(dummyModFile)
     Then(s"the saved file should have a full path of '$modsLibrary/dummyMod.mod")
     savedFile.getAbsolutePath should be (s"$modsLibrary/dummyMod.mod")
   }

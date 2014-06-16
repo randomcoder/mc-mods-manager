@@ -25,13 +25,14 @@
  */
 package uk.co.randomcoding.minecraft.modmanager.mod
 
-import java.io.InputStream
+import java.io.{FileInputStream, File, InputStream}
 import java.security.{DigestInputStream, MessageDigest}
 
 /**
- * TODO: Brief description
+ * Calculate the Digest for a data source
  */
 object DigestCalculator {
+
   def digest(inputStream: InputStream): String = {
     val digest = MessageDigest.getInstance("MD5")
     val digestStream = new DigestInputStream(inputStream, digest)
@@ -60,4 +61,5 @@ object DigestCalculator {
     def toHexString = n.foldLeft("")((cur, byte) => f"$cur${byte & 0xff}%02x")
   }
 
+  implicit def fileToInputStream(file: File): InputStream = new FileInputStream(file)
 }

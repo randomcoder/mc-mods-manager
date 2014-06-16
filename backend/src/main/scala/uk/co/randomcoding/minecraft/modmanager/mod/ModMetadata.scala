@@ -34,4 +34,5 @@ package uk.co.randomcoding.minecraft.modmanager.mod
  * @param modFileLocation The (relative) location of the mod file within the app's file system space
  * @param md5Sum The '''md5sum''' hash of the binary mod
  */
-case class ModMetadata(modName: String, minecraftVersion: String, modFileLocation: String, md5Sum: String)
+case class ModMetadata (modName: String, minecraftVersion: String, modFileLocation: String, md5Sum: String)
+}

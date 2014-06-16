@@ -27,6 +27,7 @@ package uk.co.randomcoding.minecraft.modmanager.mod
 
 import java.io.{File, FileInputStream}
 import java.nio.file.{Files, Paths}
+import uk.co.randomcoding.minecraft.modmanager.mod.DigestCalculator._
 
 /**
  * Adds a new Mod to the Mod Managers mod library
@@ -42,13 +43,14 @@ class ModAdder(modLibraryPath: String) {
    * @param minecraftVersion The version of MineCraft supported by the mod
    * @return The Metadata
    */
-  def addMod(modFile: File, modName: String, minecraftVersion: String): ModMetadata = ModMetadata(modName, minecraftVersion, s"modslibrary/${modFile.getName}", genMd5(modFile))
+  def addMod(modFile: File, modName: String, minecraftVersion: String): ModMetadata = {
+    val savedFile = copyModFile(modName, modFile)
+    ModMetadata(modName, minecraftVersion, savedFile.getAbsolutePath , digest(modFile))
+  }
 
-  def save(modFile: File): File = copyModFile(modFile)
-
-  private[this] def copyModFile(original: File): File = {
-    val targetPath = s"$modLibraryPath/${original.getName}"
-    val path = Files.copy(Paths.get(original.getAbsolutePath), Paths.get(targetPath))
+  private[this] def copyModFile(modName: String, modFile: File): File = {
+    val targetPath = savedFileName(modName, modFile, modLibraryPath)
+    val path = Files.copy(Paths.get(modFile.getAbsolutePath), Paths.get(targetPath))
 
     path.toFile
   }
@@ -57,4 +59,11 @@ class ModAdder(modLibraryPath: String) {
     DigestCalculator.digest(new FileInputStream(modFile))
   }
 
+  private[this] def savedFileName(modName: String, sourceFile: File, modsLibraryDir: String): String = {
+    val originalFileName = sourceFile.getName
+    val dotIndex = originalFileName.lastIndexOf('.')
+    val(fileName, extension) = originalFileName.splitAt(dotIndex)
+
+    s"$modsLibraryDir/$fileName-$modName$extension"
+  }
 }
