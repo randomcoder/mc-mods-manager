@@ -36,7 +36,8 @@ class ModAdder(modLibraryPath: String) {
   /**
    * Add a Mod to the mods library
    *
-   * This will copy the mod file into the applications mods library
+   * This will copy the mod file into the applications mods library and return the [[ModMetadata]]
+   * for the saved file
    *
    * @param modFile The mod file to add
    * @param modName The name to give to the mod for easy identification
@@ -45,7 +46,7 @@ class ModAdder(modLibraryPath: String) {
    */
   def addMod(modFile: File, modName: String, minecraftVersion: String): ModMetadata = {
     val savedFile = copyModFile(modName, modFile)
-    ModMetadata(modName, minecraftVersion, savedFile.getAbsolutePath , digest(modFile))
+    ModMetadata(modName, minecraftVersion, savedFile.getAbsolutePath , digest(savedFile))
   }
 
   private[this] def copyModFile(modName: String, modFile: File): File = {
@@ -53,10 +54,6 @@ class ModAdder(modLibraryPath: String) {
     val path = Files.copy(Paths.get(modFile.getAbsolutePath), Paths.get(targetPath))
 
     path.toFile
-  }
-
-  private[this] def genMd5(modFile: File): String = {
-    DigestCalculator.digest(new FileInputStream(modFile))
   }
 
   private[this] def savedFileName(modName: String, sourceFile: File, modsLibraryDir: String): String = {

@@ -125,17 +125,6 @@ class ModAdderSpec extends SpecBaseBeforeAfterEach {
 
   it should "return the same saved mod file when a second mod with a different name but the same hash is saved" in {
     pending
-    /*Given("a ModAdder with a mod already saved")
-    val modAdder = genModAdder
-    val dummyModFile = new File(getClass.getResource("/dummyMod.mod").toURI)
-    val originalSavedFile = modAdder.save(dummyModFile)
-    And("a second mod file which has a different name but the same hash")
-    val sameHashModFile = new File(getClass.getResource("/anotherDummyMod.mod").toURI)
-
-    When("the second mod file (with the same hash) is saved")
-    val savedFile = modAdder.save(dummyModFile)
-    Then("the returned file should be the same as the original saved file")
-    savedFile should be (originalSavedFile)*/
   }
 
   it should "generate new metadata when adding a new supported version to a mod already in the Mods Library" in {
