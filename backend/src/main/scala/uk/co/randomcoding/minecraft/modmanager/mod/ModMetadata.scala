@@ -35,4 +35,3 @@ package uk.co.randomcoding.minecraft.modmanager.mod
  * @param md5Sum The '''md5sum''' hash of the binary mod
  */
 case class ModMetadata (modName: String, minecraftVersion: String, modFileLocation: String, md5Sum: String)
-}
