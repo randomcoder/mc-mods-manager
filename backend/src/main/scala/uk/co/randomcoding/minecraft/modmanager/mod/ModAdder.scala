@@ -25,14 +25,18 @@
  */
 package uk.co.randomcoding.minecraft.modmanager.mod
 
-import java.io.{File, FileInputStream}
+import java.io.File
 import java.nio.file.{Files, Paths}
+
 import uk.co.randomcoding.minecraft.modmanager.mod.DigestCalculator._
 
 /**
  * Adds a new Mod to the Mod Managers mod library
  */
 class ModAdder(modLibraryPath: String) {
+
+  private[this] var metadataLibrary = Map.empty[String, ModMetadata]
+
   /**
    * Add a Mod to the mods library
    *
@@ -45,8 +49,28 @@ class ModAdder(modLibraryPath: String) {
    * @return The Metadata
    */
   def addMod(modFile: File, modName: String, minecraftVersion: String): ModMetadata = {
-    val savedFile = copyModFile(modName, modFile)
-    ModMetadata(modName, minecraftVersion, savedFile.getAbsolutePath , digest(savedFile))
+    val originalDigest = digest(modFile)
+    metadataLibrary.get(originalDigest) match {
+      case Some(metadata) => {
+        if (metadata.minecraftVersions.contains(minecraftVersion)) metadata
+        else updateVersions(metadata, minecraftVersion)
+      }
+      case _ => {
+        val savedFile = copyModFile(modName, modFile)
+        val metadata = ModMetadata(modName, Seq(minecraftVersion), savedFile.getAbsolutePath , digest(savedFile))
+        metadataLibrary = metadataLibrary + (metadata.md5Sum -> metadata)
+
+        metadata
+      }
+    }
+  }
+
+  private[this] def updateVersions(metadata: ModMetadata, newVersion: String) = {
+    val newVersions = newVersion +: metadata.minecraftVersions
+    val newMetadata = metadata.copy(minecraftVersions = newVersions)
+    metadataLibrary = metadataLibrary.updated(metadata.md5Sum, newMetadata)
+
+    newMetadata
   }
 
   private[this] def copyModFile(modName: String, modFile: File): File = {
@@ -56,7 +80,7 @@ class ModAdder(modLibraryPath: String) {
     path.toFile
   }
 
-  private[this] def savedFileName(modName: String, sourceFile: File, modsLibraryDir: String): String = {
+  def savedFileName(modName: String, sourceFile: File, modsLibraryDir: String): String = {
     val originalFileName = sourceFile.getName
     val dotIndex = originalFileName.lastIndexOf('.')
     val(fileName, extension) = originalFileName.splitAt(dotIndex)

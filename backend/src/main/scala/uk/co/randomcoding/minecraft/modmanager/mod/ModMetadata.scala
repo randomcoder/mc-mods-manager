@@ -29,9 +29,9 @@ package uk.co.randomcoding.minecraft.modmanager.mod
  * Metadata about a mod stored within the mod manager
  *
  * @param modName The name of the mod as given by the user
- * @param minecraftVersion The versions of minecraft the mod supports.
+ * @param minecraftVersions The versions of minecraft the mod supports.
  *                         If there are multiple supported versions then there will be multiple items of metadata
  * @param modFileLocation The (relative) location of the mod file within the app's file system space
  * @param md5Sum The '''md5sum''' hash of the binary mod
  */
-case class ModMetadata (modName: String, minecraftVersion: String, modFileLocation: String, md5Sum: String)
+case class ModMetadata (modName: String, minecraftVersions: Seq[String], modFileLocation: String, md5Sum: String)
