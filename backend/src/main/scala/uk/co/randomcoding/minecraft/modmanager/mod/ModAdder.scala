@@ -57,7 +57,7 @@ class ModAdder(modLibraryPath: String) {
       }
       case _ => {
         val savedFile = copyModFile(modName, modFile)
-        val metadata = ModMetadata(modName, Seq(minecraftVersion), savedFile.getAbsolutePath , digest(savedFile))
+        val metadata = ModMetadata(modName, Seq(minecraftVersion), savedFile.getAbsolutePath, digest(savedFile))
         metadataLibrary = metadataLibrary + (metadata.md5Sum -> metadata)
 
         metadata
@@ -83,7 +83,7 @@ class ModAdder(modLibraryPath: String) {
   def savedFileName(modName: String, sourceFile: File, modsLibraryDir: String): String = {
     val originalFileName = sourceFile.getName
     val dotIndex = originalFileName.lastIndexOf('.')
-    val(fileName, extension) = originalFileName.splitAt(dotIndex)
+    val (fileName, extension) = originalFileName.splitAt(dotIndex)
 
     s"$modsLibraryDir/$fileName-$modName$extension"
   }
