@@ -2,22 +2,28 @@ import Dependencies._
 
 val commonSettings = Seq(
   version := "0.1.0-SNAPSHOT",
-  scalaVersion := "2.11.0",
+  scalaVersion := "2.11.1",
   organization := "uk.co.randomcoding",
   scalacOptions in Compile ++= Seq("-feature", "-deprecation", "-unchecked", "-language:implicitConversions"))
 
+val testSettings = Seq(
+  testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest, "-oS"),
+  testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest, "-h", "test-specs")
+)
+
 lazy val root = project.in(file("."))
   .settings(commonSettings: _*)
+  .settings(testSettings:_*)
   .settings(
-	name := "Minecraft Mods Manager",
-	test := {},
+    name := "Minecraft Mods Manager",
+    test := {},
     publish := {},
-    publishLocal := {},
-    aggregate in update := false)
+    publishLocal := {})
   .aggregate(gui, backend)
 
 lazy val gui = project.in(file("gui"))
   .settings(commonSettings: _*)
+  .settings(testSettings: _*)
   .settings(
     name := "Minecraft Mods Manager Application",
     libraryDependencies ++= commonDependencies ++ guiDependencies,

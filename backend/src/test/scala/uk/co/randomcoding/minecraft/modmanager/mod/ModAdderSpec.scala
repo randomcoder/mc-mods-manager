@@ -31,6 +31,11 @@ import org.scalatest.Inside._
 import uk.co.randomcoding.minecraft.modmanager.SpecBaseBeforeAfterEach
 
 class ModAdderSpec extends SpecBaseBeforeAfterEach {
+  markup {
+    """
+      |# Mod Adder
+    """.stripMargin
+  }
 
   final val modsLibrary = s"${System.getProperty("java.io.tmpdir")}/modslibrary"
   final val defaultModName = "Dummy Mod"
