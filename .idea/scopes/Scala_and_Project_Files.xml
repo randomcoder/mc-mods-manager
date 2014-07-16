@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="Scala and Project Files" pattern="file:src/**/*.scala||file[root]:build.sbt||file:*.md" />
+</component>

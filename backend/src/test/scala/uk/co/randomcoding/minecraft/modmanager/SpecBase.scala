@@ -30,7 +30,9 @@ import org.scalatest._
 /**
  * Base type for `FlatSpec` based classes including common helper traits
  */
-abstract class SpecBase extends FlatSpec with GivenWhenThen with Inspectors with OptionValues with Matchers
+abstract class SpecBase extends FlatSpec with GivenWhenThen with Inspectors with OptionValues with Matchers {
+  protected val behaviour = new BehaviorWord
+}
 
 /**
  * Adds `BeforeAndAfterAll` to [[SpecBase]]

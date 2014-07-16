@@ -50,7 +50,9 @@ class ModAdderSpec extends SpecBaseBeforeAfterEach {
     libDir.delete() should be(true)
   }
 
-  "A ModAdder" should "generate metadata for an added mod that includes the mod name and minecraft version provided" in {
+  behaviour of "A ModAdder"
+
+  it should "generate metadata for an added mod that includes the mod name and minecraft version provided" in {
     Given("a ModAdder")
     val modAdder = genModAdder
 
